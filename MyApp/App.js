@@ -8,7 +8,7 @@ export default function App() {
   'Roboto-Normal': require('./assets/fonts/Roboto_Condensed-Regular.ttf'),
   'Roboto-Medium': require('./assets/fonts/Roboto_Condensed-Medium.ttf'),
   'Roboto-Bold': require('./assets/fonts/Roboto_Condensed-Bold.ttf'),
-  'Roboto-Ligth': require('./assets/fonts/Roboto_Condensed-Light.ttf'),
+  'Roboto-Light': require('./assets/fonts/Roboto_Condensed-Light.ttf'),
   })
   
   if (!fontsLoaded) {
@@ -27,7 +27,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },

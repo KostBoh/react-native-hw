@@ -34,6 +34,7 @@ return (
             autoFocus={autoFocus}
             onChangeText={onTextChange}
             placeholder={placeholder}
+            placeholderTextColor={colors.border_gray}
             secureTextEntry={secureTextEntry}
             style={styles.baseText}
             autoCapitalize="none"
