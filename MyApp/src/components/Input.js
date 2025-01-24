@@ -34,7 +34,6 @@ return (
             autoFocus={autoFocus}
             onChangeText={onTextChange}
             placeholder={placeholder}
-            placeholderTextColor={colors.border_gray}
             secureTextEntry={secureTextEntry}
             style={styles.baseText}
             autoCapitalize="none"
@@ -49,7 +48,8 @@ return (
 
 const styles = StyleSheet.create({
     input: {
-        padding: 16,
+        paddingLeft: 16,
+        paddingRight:16,
         height: 50,
         borderRadius: 16,
         borderWidth: 1,
@@ -57,8 +57,9 @@ const styles = StyleSheet.create({
         backgroundColor:colors.light_gray,
     },
     baseText: {
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 16,
+        flex: 1,
         lineHeight: 18,
         color: colors.black_primary,
     },
