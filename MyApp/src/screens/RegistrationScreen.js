@@ -15,17 +15,28 @@ import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
-import { useState } from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { useEffect, useState } from "react";
+// import Ionicons from "@expo/vector-icons/Ionicons";
 import CirclePlusSvg from "../../icons/CirclePlusSvg";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({route, navigation}) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const params = route?.params;
+  console.log('ROUTE PARAMS: ', params);
+
+  // useEffect(() => {
+  //   if (params) {
+  //     const { email } = params;
+  //     navigation.setOptions({title: email}, [])
+      
+
+  //   }
+  // })
 
   const handleLoginChange = (value) => {
     setLogin(value);
@@ -43,7 +54,7 @@ const RegistrationScreen = () => {
   };
 
   const onLogin = async () => {
-    console.log("login");
+    navigation.navigate('Login', {email, password})
   };
 
   const onSignUp = () => {

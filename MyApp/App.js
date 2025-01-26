@@ -1,7 +1,10 @@
 import { useFonts } from 'expo-font';
 import { ActivityIndicator, SafeAreaView, StyleSheet, View } from 'react-native';
-import RegistrationScreen from './src/screens/RegistrationScreen';
-import LoginScreen from './src/screens/LoginScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import 'react-native-gesture-handler';
+import AuthNavigator from './src/navigation/AuthNavigator';
+import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+
 
 export default function App() {
 
@@ -11,6 +14,8 @@ export default function App() {
   'Roboto-Bold': require('./assets/fonts/Roboto_Condensed-Bold.ttf'),
   'Roboto-Light': require('./assets/fonts/Roboto_Condensed-Light.ttf'),
   })
+
+  const isLoggedIn = true;
   
   if (!fontsLoaded) {
     return (
@@ -21,9 +26,15 @@ export default function App() {
   }
 
   return (
+    <NavigationContainer>
+      {isLoggedIn ? (
+        <BottomTabNavigator />
+      ) : (
+          <AuthNavigator/>
+      )
+      }
+    </NavigationContainer>
     
-    // <RegistrationScreen />,
-    <LoginScreen/>
   );
 }
 

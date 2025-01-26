@@ -6,10 +6,13 @@ import Button from "../components/Button";
 
 const { width: SCREEN_WIDTH } = Dimensions.get('screen');
 
-const LoginScreen = () => {
+const LoginScreen = ({route, navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = ('');
+    const params = route?.params;
+    console.log('ROUTE PARAMS: ', params);
+
     const handleEmailChange = (value) => {
         setEmail(value);
     };
@@ -23,8 +26,9 @@ const LoginScreen = () => {
         console.log('login')
     };
     const onSignUp = () => {
-        console.log('signUp');
+        navigation.navigate('Signup', {email, password})
     };
+
     const showButton = (
         <TouchableOpacity 
             onPress = { showButton }
@@ -56,7 +60,7 @@ const LoginScreen = () => {
                     <View style={[styles.innerContainer, styles.inputContainer]}>
                         <Input
                             value={email}
-                            autoFocus={true}
+                            // autoFocus={true}
                             placeholder='Адреса електронної пошти'
                             onTextChange={handleEmailChange}
                         />
