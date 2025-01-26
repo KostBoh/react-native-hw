@@ -39,6 +39,7 @@ return (
             autoCapitalize="none"
             onFocus={onFocus}
             onBlur={onBlur}
+            multiline
         />
         {rightButton}
         

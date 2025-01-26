@@ -14,7 +14,10 @@ import {
 import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
+
 import { useState } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import CirclePlusSvg from "../../icons/CirclePlusSvg";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
@@ -39,8 +42,8 @@ const RegistrationScreen = () => {
     setIsPasswordVisible((prev) => !prev);
   };
 
-    const onLogin = async () => {
-    console.log('login')
+  const onLogin = async () => {
+    console.log("login");
   };
 
   const onSignUp = () => {
@@ -65,12 +68,11 @@ const RegistrationScreen = () => {
           style={styles.container}
           behavior={Platform.OS == "ios" ? "padding" : "height"}
         >
-          
           <View style={styles.formContainer}>
-            
-            <View>
-              <Image style={styles.addFoto} />
-              
+            <View style={styles.avatar}>
+              <Image style={styles.addFoto}  />
+              {/* <Ionicons name="add-circle" size={24} color={colors.orange} /> */}
+              <CirclePlusSvg/>
             </View>
             <Text style={styles.title}>Реєстрація</Text>
 
@@ -80,14 +82,12 @@ const RegistrationScreen = () => {
                 autoFocus={false}
                 placeholder="Логін"
                 onTextChange={handleLoginChange}
-
               />
               <Input
                 value={email}
                 autoFocus={false}
                 placeholder="Адреса електронної пошти"
                 onTextChange={handleEmailChange}
-
               />
               <Input
                 value={password}
@@ -107,9 +107,9 @@ const RegistrationScreen = () => {
 
               <View style={styles.signInContainer}>
                 <Text style={[styles.baseText, styles.passwordButtonText]}>
-                  Вже є акаунт? 
+                  Вже є акаунт?
                   <TouchableWithoutFeedback onPress={onLogin}>
-                    <Text style={styles.signInText}>Увійти</Text>
+                    <Text style={styles.signInText}> Увійти</Text>
                   </TouchableWithoutFeedback>
                 </Text>
               </View>
@@ -144,6 +144,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue,
     source: "../../assets/icon.png",
   },
+  avatar: {
+    flexDirection: 'row'
+  },
   image: {
     position: "absolute",
     top: 0,
@@ -162,12 +165,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: '500',
+    fontWeight: "500",
     lineHeight: 36,
     textAlign: "center",
   },
   baseText: {
-    fontWeight: '400',
+    fontWeight: "400",
     fontSize: 16,
     lineHeight: 18,
   },
@@ -182,12 +185,11 @@ const styles = StyleSheet.create({
   },
   passwordButtonText: {
     color: colors.blue,
-    
   },
   passwordButton: {
     flexDirection: "row",
-    alignItems:"center",
-  },  
+    alignItems: "center",
+  },
   signInContainer: {
     flexDirection: "row",
     alignItems: "center",

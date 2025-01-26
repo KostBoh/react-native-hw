@@ -1,6 +1,7 @@
 import { useFonts } from 'expo-font';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StyleSheet, View } from 'react-native';
 import RegistrationScreen from './src/screens/RegistrationScreen';
+import LoginScreen from './src/screens/LoginScreen';
 
 export default function App() {
 
@@ -13,15 +14,16 @@ export default function App() {
   
   if (!fontsLoaded) {
     return (
-      <View style={styles.section}>
+      <SafeAreaView style={styles.section}>
         <ActivityIndicator size={'large'}/>
-      </View>
+      </SafeAreaView>
     )
   }
 
   return (
     
-    <RegistrationScreen/>
+    // <RegistrationScreen />,
+    <LoginScreen/>
   );
 }
 
