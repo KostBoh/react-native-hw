@@ -1,7 +1,7 @@
 import {createStackNavigator} from "@react-navigation/stack"
 import LoginScreen from "../screens/LoginScreen";
-import RegistrationScreen from "../screens/RegistrationScreen";
 import LogoutIcon from "../../icons/LogoutIcon";
+import SignupScreen from "../screens/SignupScreen";
 
 
 const Stack = createStackNavigator();
@@ -25,10 +25,10 @@ const AuthNavigator = () => {
             />
             <Stack.Screen
                 name="Signup"
-                component={RegistrationScreen}
+                component={SignupScreen}
                 options={{
                     title:"Second screen",
-                    presentation: 'modal'
+                    presentation: "card"
                 }}
             />
 

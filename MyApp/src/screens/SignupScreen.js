@@ -21,7 +21,7 @@ import CirclePlusSvg from "../../icons/CirclePlusSvg";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
-const RegistrationScreen = ({route, navigation}) => {
+const SignupScreen = ({route, navigation}) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -132,7 +132,7 @@ const RegistrationScreen = ({route, navigation}) => {
   );
 };
 
-export default RegistrationScreen;
+export default SignupScreen;
 
 const styles = StyleSheet.create({
   container: {

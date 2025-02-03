@@ -13,11 +13,14 @@ const BottomTabNavigator = () => {
         <Tab.Navigator
             initialRouteName='Profile'
             screenOptions={({ navigation }) => ({
-                tabBarLabel: 'label',
+                tabBarLabel: '',
                 tabBarStyle: {
                     display: 'flex',
-                    paddingVertical:16,
+                    // paddingVertical:16,
                 },
+                tabBarItemStyle: {
+                    paddingTop:12
+                }
             })}
         >
             <Tab.Screen
@@ -34,6 +37,18 @@ const BottomTabNavigator = () => {
                     ),
                 })}
             />
+
+            {/* <Tab.Screen
+                name='CreatePostStack'
+                component={CreatePostNavigator }
+                
+            
+            
+            /> */}
+
+
+
+
             <Tab.Screen
                 name='Profile'
                 component={ProfileScreen}
