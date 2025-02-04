@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LoginScreen from "../screens/LoginScreen";
-import RegistrationScreen from "../screens/RegistrationScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 const Stack = createStackNavigator();
 
@@ -11,7 +11,7 @@ const StackNavigator = () => {
     <Stack.Navigator
       // initialRouteName = ""
           screenOptions ={{
-          // headerShown: false,
+        //   headerShown: false,
           }}>
           {isLoggedIn ? (
               <Stack.Screen
@@ -26,7 +26,7 @@ const StackNavigator = () => {
                       />
                       <Stack.Screen
                           name="Signup"
-                          component={RegistrationScreen}
+                          component={SignupScreen}
                       />
                   </>
           

@@ -3,6 +3,10 @@ import { ActivityIndicator, SafeAreaView, StyleSheet, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import AuthNavigator from './src/navigation/AuthNavigator';
+import StackNavigator from './src/navigation/StackNavigator';
+
+
+
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 
 
@@ -33,7 +37,9 @@ export default function App() {
           <AuthNavigator/>
       )
       }
+      {/* <StackNavigator/> */}
     </NavigationContainer>
+
     
   );
 }

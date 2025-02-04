@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
     return (
         <Tab.Navigator
-            initialRouteName='Profile'
+            initialRouteName='Map'
             screenOptions={({ navigation }) => ({
                 tabBarLabel: '',
                 tabBarStyle: {
@@ -28,6 +28,7 @@ const BottomTabNavigator = () => {
                 component={MapScreen}
                 options={({ navigation }) => ({
                     title: 'Map',
+                    headerShown: false,
                     tabBarIcon: ({ focused }) => (
                         <Ionicons
                             name='map'
