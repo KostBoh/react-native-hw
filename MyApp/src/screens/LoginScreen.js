@@ -1,109 +1,112 @@
 import { useState } from "react";
-import { Dimensions, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import {colors} from '../../styles/global'
+import {
+  Dimensions,
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
+import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
-const { width: SCREEN_WIDTH } = Dimensions.get('screen');
+const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
-const LoginScreen = ({route, navigation}) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isPasswordVisible, setIsPasswordVisible] = ('');
-    const params = route?.params;
-    console.log('ROUTE PARAMS: ', params);
+const LoginScreen = ({ route, navigation, authorization }) => {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
 
-    const handleEmailChange = (value) => {
-        setEmail(value);
-    };
-    const handlePasswordChange = (value) => {
-        setPassword(value);
-    };
-    const showPassword = () => {
-        setIsPasswordVisible(prev = !prev);
-    };
-    const onLogin = async () => {
-        console.log('login')
-    };
-    const onSignUp = () => {
-        navigation.navigate('Signup', {email, password})
-    };
+  const onInputChange = (value, input) => {
+    setData((prev) => ({ ...prev, [input]: value }));
+  };
 
-    const showButton = (
-        <TouchableOpacity 
-            onPress = { showButton }
+  const onLogin = () => {
+    if (data.email.length > 1 && data.password.length > 1) {
+      console.log(data);
+      setData((prev) => ({ ...prev, email: "", password: "" }));
+      authorization();
+    } else {
+      console.log("Data Missing: Please fill all fields.");
+    }
+  };
+
+  const toRegister = () => {
+    navigation.replace("Register", {
+      email: data.email,
+      password: data.password,
+    });
+  };
+
+  const showPassword = () => {
+    setIsPasswordVisible((prev) => !prev);
+  };
+
+  const showButton = (
+    <TouchableOpacity onPress={showPassword}>
+      <Text style={[styles.baseText, styles.passwordButtonText]}>Показати</Text>
+    </TouchableOpacity>
+  );
+
+  return (
+    <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss}>
+      <>
+        <Image
+          source={require("../../assets/photoBg.png")}
+          resizeMode="cover"
+          style={styles.image}
+        />
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
         >
-            <Text style={[styles.baseText, styles.passwordButtonText]} >
-                Показати
-            </Text>
-        </TouchableOpacity>
-    )
+          <View style={styles.formContainer}>
+            <Text style={styles.title}>Увійти</Text>
+            <View style={[styles.innerContainer, styles.inputContainer]}>
+              <Input
+                value={data.email}
+                placeholder="Адреса електронної пошти"
+                onTextChange={(value) => onInputChange(value, "email")}
+              />
+              <Input
+                value={data.password}
+                placeholder="Пароль"
+                rightButton={showButton}
+                outerStyles={styles.passwordButton}
+                onTextChange={(value) => onInputChange(value, "password")}
+                secureTextEntry={setIsPasswordVisible}
+              />
+            </View>
 
-
-
-    return (<Pressable
-        style={{ flex: 1 }}
-        onPress={()=>Keyboard.dismiss}
-    >
-        <>
-            <Image
-                source={require('../../assets/photoBg.png')}
-                resizeMode='cover'
-            style={styles.image}
-            />
-            <KeyboardAvoidingView
-                style={styles.container}
-                behavior={Platform.OS =='ios' ? 'padding' : 'height'}
-            >
-                <View style={styles.formContainer}>
-                    <Text style={styles.title}>Увійти</Text>
-                    <View style={[styles.innerContainer, styles.inputContainer]}>
-                        <Input
-                            value={email}
-                            // autoFocus={true}
-                            placeholder='Адреса електронної пошти'
-                            onTextChange={handleEmailChange}
-                        />
-                        <Input
-                            value={password}
-                            placeholder='Пароль'
-                            rightButton={showButton}
-                            outerStyles={styles.passwordButton}
-                            onTextChange={handlePasswordChange}
-                            secureTextEntry={isPasswordVisible}
-                        />
-                    </View>
-
-                    <View style={[styles.innerContainer, styles.buttonContainer]} >
-                        <Button onPress={onLogin} >
-                            <Text style={[styles.baseText, styles.loginButtonText]} >
-                                Увійти
-                            </Text>
-                        </Button>
-                        <View style={styles.signUpContainer}>
-                            <Text style={[styles.baseText, styles.passwordButtonText]} > 
-                                Немає акаунту?
-                                <TouchableWithoutFeedback onPress={onSignUp} >
-                                    <Text style={styles.signUpText} > Зареєструватися</Text>
-
-                                </TouchableWithoutFeedback>
-
-                            </Text>
-
-                        </View>
-
-
-                    </View>
-
-
-                </View>
-
-
-            </KeyboardAvoidingView>
-        </>
+            <View style={[styles.innerContainer, styles.buttonContainer]}>
+              <Button onPress={onLogin}>
+                <Text style={[styles.baseText, styles.loginButtonText]}>
+                  Увійти
+                </Text>
+              </Button>
+              <View style={styles.signUpContainer}>
+                <Text style={[styles.baseText, styles.passwordButtonText]}>
+                  Немає акаунту?
+                  <TouchableWithoutFeedback onPress={toRegister}>
+                    <Text style={styles.signUpText}> Зареєструватися</Text>
+                  </TouchableWithoutFeedback>
+                </Text>
+              </View>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </>
     </Pressable>
-    );
-}
+  );
+};
 export default LoginScreen;
 
 const styles = StyleSheet.create({
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     height: "100%",
-    width: "100%"
+    width: "100%",
   },
   formContainer: {
     width: SCREEN_WIDTH,
@@ -153,12 +156,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   passwordButtonText: {
-      color: colors.blue,
-      justifyContent: 'center',
-      alignItems:'center'
+    color: colors.blue,
+    justifyContent: "center",
+    alignItems: "center",
   },
   passwordButton: {
-     flexDirection: "row",
+    flexDirection: "row",
     alignItems: "center",
   },
   signUpContainer: {
@@ -168,5 +171,5 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     textDecorationLine: "underline",
-  }
+  },
 });

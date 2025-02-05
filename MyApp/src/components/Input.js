@@ -9,7 +9,7 @@ const Input = ({
     outerStyles,
     rightButton,
     autoFocus = false,
-    secureTextEntry = false,
+    secureTextEntry = true,
     onBlur: onBlurCustom,
     
 }) => {

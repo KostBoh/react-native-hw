@@ -9,8 +9,8 @@ import { colors } from "../../styles/global";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { useState } from "react";
 
-const MapScreen = ({ }) => {
-    const [markerPosition, setMarkerPosition] = useState(null);
+const MapScreen = ({}) => {
+  const [markerPosition, setMarkerPosition] = useState(null);
 
   return (
     <View style={styles.container}>
@@ -25,15 +25,10 @@ const MapScreen = ({ }) => {
         mapType="standard"
         minZoomLevel={11}
         onMapReady={() => console.log("Map is ready")}
-              onRegionChange={() => console.log("Region change")}
-              onLongPress={(e) => setMarkerPosition(e.nativeEvent.coordinate)}
-        
-          >
-              {/* <Marker
-                  coordinate={markerPosition}
-                  title="I'm here"
-              
-              /> */}
+        onRegionChange={() => console.log("Region change")}
+        onLongPress={(e) => setMarkerPosition(e.nativeEvent.coordinate)}
+      >
+        {/* <Marker coordinate={markerPosition} title="I'm here" /> */}
         <Marker
           title="I am here"
           coordinate={{ latitude: 37.78825, longitude: -122.4324 }}

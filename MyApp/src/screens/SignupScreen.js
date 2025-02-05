@@ -15,50 +15,47 @@ import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
-import { useEffect, useState } from "react";
-// import Ionicons from "@expo/vector-icons/Ionicons";
-import CirclePlusSvg from "../../icons/CirclePlusSvg";
+import { useState } from "react";
+
+import CirclePlusSvg from "../../assets/icons/CirclePlusSvg";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
-const SignupScreen = ({route, navigation}) => {
-  const [login, setLogin] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const params = route?.params;
-  console.log('ROUTE PARAMS: ', params);
+const SignupScreen = ({ route, navigation, authorization }) => {
+  const [data, setData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  // useEffect(() => {
-  //   if (params) {
-  //     const { email } = params;
-  //     navigation.setOptions({title: email}, [])
-      
-
-  //   }
-  // })
-
-  const handleLoginChange = (value) => {
-    setLogin(value);
+  const onInputChange = (value, input) => {
+    setData((prev) => ({ ...prev, [input]: value }));
   };
 
-  const handleEmailChange = (value) => {
-    setEmail(value);
+  const onRegister = () => {
+    if (
+      data.email.length > 1 &&
+      data.username.length > 1 &&
+      data.password.length > 1
+    ) {
+      console.log(data);
+      setData((prev) => ({ ...prev, username: "", email: "", password: "" }));
+      authorization();
+    } else {
+      console.log("Data Missing: Please fill all fields.");
+    }
   };
 
-  const handlePasswordChange = (value) => {
-    setPassword(value);
-  };
   const showPassword = () => {
     setIsPasswordVisible((prev) => !prev);
   };
 
-  const onLogin = async () => {
-    navigation.navigate('Login', {email, password})
-  };
-
-  const onSignUp = () => {
-    console.log("signUp");
+  const toLogin = () => {
+    navigation.replace("Login", {
+      email: data.email,
+      password: data.password,
+    });
   };
 
   const showButton = (
@@ -80,49 +77,54 @@ const SignupScreen = ({route, navigation}) => {
           behavior={Platform.OS == "ios" ? "padding" : "height"}
         >
           <View style={styles.formContainer}>
-            <View style={styles.avatar}>
-              <Image style={styles.addFoto}  />
-              {/* <Ionicons name="add-circle" size={24} color={colors.orange} /> */}
-              <CirclePlusSvg/>
-            </View>
-            <Text style={styles.title}>Реєстрація</Text>
+            <View style={styles.content}>
+              <View style={styles.photoInput}>
+                <TouchableWithoutFeedback
+                  onPress={() => console.log("Add Image")}
+                >
+                  <CirclePlusSvg style={styles.addImageButton} />
+                </TouchableWithoutFeedback>
+              </View>
 
-            <View style={[styles.innerContainer, styles.inputContainer]}>
-              <Input
-                value={login}
-                autoFocus={false}
-                placeholder="Логін"
-                onTextChange={handleLoginChange}
-              />
-              <Input
-                value={email}
-                autoFocus={false}
-                placeholder="Адреса електронної пошти"
-                onTextChange={handleEmailChange}
-              />
-              <Input
-                value={password}
-                placeholder="Пароль"
-                rightButton={showButton}
-                outerStyles={styles.passwordButton}
-                onTextChange={handlePasswordChange}
-                secureTextEntry={isPasswordVisible}
-              />
-            </View>
-            <View style={[styles.innerContainer, styles.buttonContainer]}>
-              <Button onPress={onSignUp}>
-                <Text style={[styles.baseText, styles.signinButtonText]}>
-                  Зареєструватися!!!
-                </Text>
-              </Button>
+              <Text style={styles.title}>Реєстрація!</Text>
 
-              <View style={styles.signInContainer}>
-                <Text style={[styles.baseText, styles.passwordButtonText]}>
-                  Вже є акаунт?
-                  <TouchableWithoutFeedback onPress={onLogin}>
-                    <Text style={styles.signInText}> Увійти</Text>
-                  </TouchableWithoutFeedback>
-                </Text>
+              <View style={[styles.innerContainer, styles.inputContainer]}>
+                <Input
+                  value={data.username}
+                  autoFocus={false}
+                  placeholder="Логін"
+                  onTextChange={(value) => onInputChange(value, "username")}
+                />
+                <Input
+                  value={data.email}
+                  autoFocus={false}
+                  placeholder="Адреса електронної пошти"
+                  onTextChange={(value) => onInputChange(value, "email")}
+                />
+                <Input
+                  value={data.password}
+                  placeholder="Пароль"
+                  rightButton={showButton}
+                  outerStyles={styles.passwordButton}
+                  onTextChange={(value) => onInputChange(value, "password")}
+                  secureTextEntry={isPasswordVisible}
+                />
+              </View>
+              <View style={[styles.innerContainer, styles.buttonContainer]}>
+                <Button onPress={onRegister}>
+                  <Text style={[styles.baseText, styles.signinButtonText]}>
+                    Зареєструватися!!!
+                  </Text>
+                </Button>
+
+                <View style={styles.signInContainer}>
+                  <Text style={[styles.baseText, styles.passwordButtonText]}>
+                    Вже є акаунт?
+                    <TouchableWithoutFeedback onPress={toLogin}>
+                      <Text style={styles.signInText}> Увійти</Text>
+                    </TouchableWithoutFeedback>
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -155,8 +157,34 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue,
     source: "../../assets/icon.png",
   },
+  content: {
+    flex: 1,
+    width: "100%",
+    gap: 34,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingTop: 92,
+  },
+  photoInput: {
+    height: 120,
+    width: 120,
+    backgroundColor: colors.light_gray,
+    borderRadius: 16,
+
+    position: "absolute",
+    top: -94,
+    left: "50%" - 60,
+  },
+  addImageButton: {
+    height: 25,
+    width: 25,
+
+    position: "absolute",
+    right: -12,
+    bottom: 14,
+  },
   avatar: {
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   image: {
     position: "absolute",
@@ -193,6 +221,13 @@ const styles = StyleSheet.create({
   signinButtonText: {
     color: colors.white,
     textAlign: "center",
+  },
+  innerContainer: {
+    gap: 16,
+  },
+  inputContainer: {
+    width: "100%",
+    marginTop: 32,
   },
   passwordButtonText: {
     color: colors.blue,

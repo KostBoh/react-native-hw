@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-const CreatePostScreen = () => {
+const PostsScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>CreatePostScreen</Text>
+      <Text>PostsScreen</Text>
     </View>
   );
 };
-export default CreatePostScreen;
+export default PostsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

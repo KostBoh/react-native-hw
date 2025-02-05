@@ -3,14 +3,17 @@ import { ActivityIndicator, SafeAreaView, StyleSheet, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import AuthNavigator from './src/navigation/AuthNavigator';
-import StackNavigator from './src/navigation/StackNavigator';
-
-
-
-import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import { useState } from 'react';
+import MainNavigation from './src/navigation/MainNavigation';
 
 
 export default function App() {
+
+  const [isLoggedin, setIsLoggedin] = useState(false);
+  
+  const onAuthorization = () => {
+    setIsLoggedin((prev) => !prev);
+  };
 
   const [fontsLoaded] = useFonts({
   'Roboto-Normal': require('./assets/fonts/Roboto_Condensed-Regular.ttf'),
@@ -19,7 +22,6 @@ export default function App() {
   'Roboto-Light': require('./assets/fonts/Roboto_Condensed-Light.ttf'),
   })
 
-  const isLoggedIn = true;
   
   if (!fontsLoaded) {
     return (
@@ -31,13 +33,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? (
-        <BottomTabNavigator />
+      {!isLoggedin ? (
+        <AuthNavigator authorization={onAuthorization} />
       ) : (
-          <AuthNavigator/>
-      )
-      }
-      {/* <StackNavigator/> */}
+        <MainNavigation authorization={onAuthorization} />
+      )}
     </NavigationContainer>
 
     

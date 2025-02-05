@@ -1,5 +1,5 @@
 import { TouchableOpacity } from "react-native"
-import LogoutIcon from "../../icons/LogoutIcon"
+import LogoutIcon from "../../assets/icons/LogOutIcon"
 
 const LogoutButton = ({ onPress }) => {
   return (

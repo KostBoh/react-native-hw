@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-const HomeScreen = () => {
+const CommentsScreen = () => {
   return (
     <View>
-      <Text>HomeScreen</Text>
+      <Text>CommentsScreen</Text>
     </View>
   );
 };
-export default HomeScreen;
+export default CommentsScreen;
 const styles = StyleSheet.create({});
