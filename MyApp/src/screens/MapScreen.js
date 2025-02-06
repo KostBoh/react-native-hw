@@ -7,10 +7,29 @@ import {
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../styles/global";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as Location from 'expo-location';
 
-const MapScreen = ({}) => {
+const MapScreen = ({ }) => {
+  
   const [markerPosition, setMarkerPosition] = useState(null);
+  
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+  
 
   return (
     <View style={styles.container}>
@@ -23,17 +42,29 @@ const MapScreen = ({}) => {
           longitudeDelta: 0.0421,
         }}
         mapType="standard"
-        minZoomLevel={11}
+        minZoomLevel={1}
         onMapReady={() => console.log("Map is ready")}
         onRegionChange={() => console.log("Region change")}
         onLongPress={(e) => setMarkerPosition(e.nativeEvent.coordinate)}
       >
-        {/* <Marker coordinate={markerPosition} title="I'm here" /> */}
+        
         <Marker
           title="I am here"
           coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
           description="Hello"
+          draggable
         />
+        {!!location && (
+          <Marker
+            coordinate={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            }}
+            title="Hello"
+            description='I`m here'
+            draggable
+          />
+        )}
       </MapView>
     </View>
   );

@@ -9,7 +9,7 @@ import MainNavigation from './src/navigation/MainNavigation';
 
 export default function App() {
 
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [isLoggedin, setIsLoggedin] = useState(true);
   
   const onAuthorization = () => {
     setIsLoggedin((prev) => !prev);

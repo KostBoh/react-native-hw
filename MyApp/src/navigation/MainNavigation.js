@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PostsScreen from "../screens/PostsScreen.js";
 import PublicationsIcon from "../../assets/icons/PublicationsIcon.js";
@@ -11,10 +11,16 @@ import { colors } from "../../styles/global.js";
 import CreatePostScreen from "../screens/CreatePostScreen.js";
 import ProfileScreen from "../screens/ProfileScreen.js";
 import LogoutButton from "../components/LogoutButton.js";
+import LocationIcon from "../../assets/icons/LocationIcon.js";
+import * as Location from 'expo-location';
+import CreatePostNavigator from "./CreatePostNavigator.js";
 
 const BottomTab = createBottomTabNavigator();
 
 const MainNavigation = ({ authorization }) => {
+
+  
+
   return (
     <BottomTab.Navigator
       initialRouteName="Posts"
@@ -37,7 +43,7 @@ const MainNavigation = ({ authorization }) => {
           tabBarIcon: ({ focused }) => (
             <PublicationsIcon
               size={32}
-              color={focused ? colors.orange : 'black'}
+              color={focused ? colors.orange : "black"}
             />
           ),
           tabBarIconStyle: styles.bottomBarElement,
@@ -47,26 +53,38 @@ const MainNavigation = ({ authorization }) => {
       />
       <BottomTab.Screen
         name="Create Post"
-        component={CreatePostScreen}
+        component={CreatePostNavigator}
         options={({ navigation }) => ({
           tabBarIcon: ({ focused }) => (
-            <AddPostIcon
+            <AddPostIcon size={32} color={focused ? colors.orange : "black"} />
+          ),
+          tabBarIconStyle: [styles.bottomBarElement, styles.addPostElement],
+        })}
+      />
+
+      <BottomTab.Screen
+        name="Map"
+        component={MapScreen}
+        options={({ navigation }) => ({
+          title: "Map",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <LocationIcon
+              name="map"
               size={32}
-              color={focused ? colors.orange : 'black'}
+              color={focused ? colors.orange : "black"}
             />
           ),
           tabBarIconStyle: [styles.bottomBarElement, styles.addPostElement],
         })}
       />
+
       <BottomTab.Screen
         name="Profile"
         component={ProfileScreen}
         options={({ navigation }) => ({
           tabBarIcon: ({ focused }) => (
-            <AccountIcon
-              size={32}
-              color={focused ? colors.orange : 'black'}
-            />
+            <AccountIcon size={32} color={focused ? colors.orange : "black"} />
           ),
           tabBarIconStyle: styles.bottomBarElement,
           headerShown: false,
