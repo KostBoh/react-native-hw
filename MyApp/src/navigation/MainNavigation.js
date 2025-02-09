@@ -3,21 +3,25 @@ import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PostsScreen from "../screens/PostsScreen.js";
 import PublicationsIcon from "../../assets/icons/PublicationsIcon.js";
-import AddPostIcon from "../../assets/icons/AddPostIcon.js";
+// import AddPostIcon from "../../assets/icons/AddPostIcon.js";
 import AccountIcon from "../../assets/icons/AccountIcon.js";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+// import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import MapScreen from "../screens/MapScreen.js";
 import { colors } from "../../styles/global.js";
-import CreatePostScreen from "../screens/CreatePostScreen.js";
+// import CreatePostScreen from "../screens/CreatePostScreen.js";
 import ProfileScreen from "../screens/ProfileScreen.js";
 import LogoutButton from "../components/LogoutButton.js";
 import LocationIcon from "../../assets/icons/LocationIcon.js";
-import * as Location from 'expo-location';
+// import * as Location from 'expo-location';
 import CreatePostNavigator from "./CreatePostNavigator.js";
+import { useDispatch } from "react-redux";
+import { logoutDB } from "../utils/auth.js";
+import Ionicons from '@expo/vector-icons/Ionicons'
 
 const BottomTab = createBottomTabNavigator();
 
-const MainNavigation = ({ authorization }) => {
+const MainNavigation = () => {
+  const dispatch = useDispatch();
 
   
 
@@ -48,17 +52,31 @@ const MainNavigation = ({ authorization }) => {
           ),
           tabBarIconStyle: styles.bottomBarElement,
           headerRightContainerStyle: styles.headerRightStyle,
-          headerRight: ({}) => <LogoutButton onPress={authorization} />,
+          headerRight: ({}) => <LogoutButton onPress={() => logoutDB(dispatch)} />,
         })}
       />
       <BottomTab.Screen
         name="Create Post"
+        
         component={CreatePostNavigator}
         options={({ navigation }) => ({
-          tabBarIcon: ({ focused }) => (
-            <AddPostIcon size={32} color={focused ? colors.orange : "black"} />
+          title: "Create Post",
+          headerShown: false,
+          tabBarStyle: { display: "none" },
+          headerLeft: () => (
+            <BackButton
+              onPress={() => navigation.goBack()}
+            />
           ),
-          tabBarIconStyle: [styles.bottomBarElement, styles.addPostElement],
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.addButton}>
+              <Ionicons
+                size={32}
+                name="add"
+                color={colors.orange}
+              />
+            </View>
+          ),
         })}
       />
 
@@ -72,7 +90,7 @@ const MainNavigation = ({ authorization }) => {
             <LocationIcon
               name="map"
               size={32}
-              color={focused ? colors.orange : "black"}
+              color={focused ? colors.white : "black"}
             />
           ),
           tabBarIconStyle: [styles.bottomBarElement, styles.addPostElement],

@@ -8,4 +8,5 @@ const CommentsScreen = () => {
   );
 };
 export default CommentsScreen;
+
 const styles = StyleSheet.create({});

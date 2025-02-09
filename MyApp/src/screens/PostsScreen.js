@@ -8,6 +8,7 @@ const PostsScreen = () => {
   );
 };
 export default PostsScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

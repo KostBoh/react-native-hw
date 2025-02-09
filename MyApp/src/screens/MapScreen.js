@@ -70,6 +70,8 @@ const MapScreen = ({ }) => {
   );
 };
 
+export default MapScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -82,4 +84,3 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height,
   },
 });
-export default MapScreen;

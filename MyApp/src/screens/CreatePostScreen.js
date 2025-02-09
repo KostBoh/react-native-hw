@@ -12,9 +12,9 @@ import { colors } from "../../styles/global";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useSelector } from "react-redux";
-// import { addPost, uploadImage } from "../utils/firestore";
+import { addPost, getPosts, uploadImage } from "../utils/firestore";
 
-const PLACES_KEY = "<YOUR_KEY>";
+const PLACES_KEY = "AIzaSyDKv9WZ53gyqZG5HrG8kiKLlElRvZZsePg";
 
 const CreatePostScreen = ({ navigation, route }) => {
   const params = route?.params;
@@ -22,9 +22,9 @@ const CreatePostScreen = ({ navigation, route }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [title, setTitle] = useState('');
   const [address, setAddress] = useState('');
+  const user = useSelector((state) => state.user.userInfo);
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const autocompleteRef = useRef(null);
-  // const user = useSelector((state) => state.user.userInfo);
 
   const navigateToCameraScreen = async () => {
     navigation.navigate('Camera');
@@ -52,26 +52,22 @@ const CreatePostScreen = ({ navigation, route }) => {
   };
 
   const uploadImageToStorage = async () => {
+    if (!selectedImage) return;
 
-    console.log("uploadImageToStorage")
+    try {
+      const response = await fetch(selectedImage);
+      const file = await response.blob();
+      const fileName = selectedImage.split('/').pop(); // Отримуємо ім'я файлу з URI
+      const fileType = file.type; // Отримуємо тип файлу
+      const imageFile = new File([file], fileName, { type: fileType });
 
+      const uploadedImageUrl = await uploadImage(user.uid, imageFile, fileName);
 
-    // if (!selectedImage) return;
-
-    // try {
-    //   const response = await fetch(selectedImage);
-    //   const file = await response.blob();
-    //   const fileName = selectedImage.split('/').pop(); // Отримуємо ім'я файлу з URI
-    //   const fileType = file.type; // Отримуємо тип файлу
-    //   const imageFile = new File([file], fileName, { type: fileType });
-
-    //   const uploadedImageUrl = await uploadImage(user.uid, imageFile, fileName);
-
-    //   return uploadedImageUrl;
-    // } catch (e) {
-    //   console.log(e);
-    //   return null;
-    // }
+      return uploadedImageUrl;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   }
 
   const onClearData = () => {
@@ -89,28 +85,25 @@ const CreatePostScreen = ({ navigation, route }) => {
   }, [params]);
 
   const onPublish = async () => {
-    console.log("onPublish")
+    if (!user) return;
 
-    // if (!user) return;
+    try {
+      const imageUrl = await uploadImageToStorage();
+      const postId = nanoid()
 
-    // try {
-    //   const imageUrl = await uploadImageToStorage();
-    //   const postId = nanoid()
+      await addPost(postId, {
+        address,
+        id: postId,
+        image: imageUrl,
+        userId: user.uid,
+        title,
+      });
 
-    //   await addPost(postId, {
-    //     address,
-    //     id: postId,
-    //     image: imageUrl,
-    //     userId: user.uid,
-    //     title,
-    //     comments: [],
-    //   });
-
-    //   Alert.alert('Пост успішно створено!');
-    //   onClearData();
-    // } catch (error) {
-    //   console.log(error)
-    // }
+      Alert.alert('Пост успішно створено!');
+      onClearData();
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -158,8 +151,8 @@ const CreatePostScreen = ({ navigation, route }) => {
           ref={autocompleteRef}
           enablePoweredByContainer={false}
           fetchDetails
+          currentLocation
           onPress={(data, details = null) => {
-            // 'details' is provided when fetchDetails = true
             setAddress(data.description);
           }}
           textInputProps={{
