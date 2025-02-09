@@ -8,8 +8,10 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { EXPO_PUBLIC_API_KEY } from '@env';
+
 const firebaseConfig = {
-  apiKey: "AIzaSyChLILYdfdmGKO5mCAgy5FsEr4IUI-VVBE",
+  apiKey: EXPO_PUBLIC_API_KEY,
   authDomain: 'react-native-2a1dd.firebaseapp.com',
   projectId: 'react-native-2a1dd',
   storageBucket: 'gs://react-native-2a1dd.firebasestorage.app',
